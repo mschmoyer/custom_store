@@ -1,3 +1,17 @@
+.bg-primary {
+    background-color: #1A1F71 !important;
+}
+
+.btn-primary {
+    background-color: #7CBB37;
+    border-color: #7CBB37;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #5a9228;
+    border-color: #5a9228;
+}
+
 .fade-in {
     opacity: 0;
     transform: translateY(20px);

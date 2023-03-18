@@ -7,9 +7,11 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, f
 from datetime import datetime
 import base64
 import pycountry
+from flask_caching import Cache
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 # Replace these with your ShipStation API key and secret
 API_KEY = "3b3e873ff35f4841bd098109b4500b2c"
@@ -73,6 +75,7 @@ def create_shipstation_order(order_number, order_items, shipping_info):
 
     return order
 
+@cache.memoize(300)
 def fetch_shipstation_products():
     headers = {
         "Content-Type": "application/json"
@@ -101,9 +104,6 @@ def fetch_shipstation_products():
     else:
         return []
 
-
-
-
 def send_order_to_shipstation(order):
     headers = {
         "Content-Type": "application/json"
@@ -130,12 +130,11 @@ def index():
     products = fetch_shipstation_products()
     return render_template("index.html", products=products)
 
-
 @app.route("/buy/<int:product_id>", methods=["POST"])
 def buy(product_id):
     shipping_info = request.get_json()
     order_id = str(uuid.uuid4())
-    global products
+    products = fetch_shipstation_products()
     product = next((p for p in products if p["id"] == product_id), None)
     
     if product is None:

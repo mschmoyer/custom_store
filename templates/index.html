@@ -9,14 +9,15 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="{{ url_for('static', filename='app.js') }}"></script>
+        <script src="https://js.stripe.com/v3/"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
         <title>Products</title>
     </head>
     <body>
         <header class="bg-primary text-white text-center py-3">
-            <h1>Awesome Store</h1>
+            <h1>GearUp Engineers</h1>
             <img src="{{ url_for('static', filename='brand_logo.png') }}" alt="Brand Logo" width="100" class="mt-2">
-        </header>
+        </header>           
 
         <section class="container my-5">
             {% if error %}
@@ -25,10 +26,16 @@
                 </div>
             {% endif %}
 
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="text" class="form-control" id="search-input" placeholder="Search for products...">
+                </div>
+            </div>
+
             <h2 class="text-center mb-4">Products</h2>
             <div class="row">
                 {% for product in products %}
-                <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                <div class="product-container col-lg-4 col-md-6 mb-4 fade-in">
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title">{{ product["name"] }}</h5>
@@ -44,6 +51,17 @@
                 {% endfor %}
             </div>
         </section>
+
+        <!-- Add this just before the closing </body> tag -->
+
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+            <span class="text-muted">Made by ChatGPT and Mike Schmoyer</span><br>
+            <a class="text-muted" href="https://github.com/mschmoyer/custom_store">See source code</a>
+            </div>
+        </footer>
+  
+  
     </body>
 
     <!-- Buy Modal -->
@@ -89,4 +107,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Order Status</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <p id="loadingMessage">Purchasing...</p>
+                    <p id="successMessage" style="display:none;">Your success message will appear here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="display:none;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </html>
