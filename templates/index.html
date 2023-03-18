@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="{{ url_for('static', filename='app.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+        <title>Products</title>
+    </head>
+    <body>
+        <header class="bg-primary text-white text-center py-3">
+            <h1>Awesome Store</h1>
+            <img src="{{ url_for('static', filename='brand_logo.png') }}" alt="Brand Logo" width="100" class="mt-2">
+        </header>
+
+        <section class="container my-5">
+            {% if error %}
+                <div class="alert alert-danger mt-3" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <h2 class="text-center mb-4">Products</h2>
+            <div class="row">
+                {% for product in products %}
+                <div class="col-lg-4 col-md-6 mb-4 fade-in">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product["name"] }}</h5>
+                            <p class="card-text">{{ product["description"] }}</p>
+                            <p class="card-text">SKU: {{ product["sku"] }}</p>
+                            <p class="card-text">${{ product["price"] }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-buy" data-toggle="modal" data-target="#buyModal" data-product-id="{{ product["id"] }}">Buy</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </body>
+
+    <!-- Buy Modal -->
+    <div class="modal" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyModalLabel">Enter Shipping Address</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="shipping-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="street1">Street Address</label>
+                            <input type="text" class="form-control" id="street1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" id="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text" class="form-control" id="postalCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" class="form-control" id="country" required>
+                        </div>
+                        <input type="hidden" id="product-id">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
