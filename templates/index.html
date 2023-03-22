@@ -9,9 +9,8 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="{{ url_for('static', filename='app.js') }}"></script>
-        <script src="https://js.stripe.com/v3/"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
-        <title>Products</title>
+        <title>GearUp Engineers Store</title>
     </head>
     <body>
         <header class="bg-primary text-white text-center py-3">
@@ -26,25 +25,35 @@
                 </div>
             {% endif %}
 
-            <div class="row">
+            <div class="jumbotron jumbotron-fluid bg-light text-center">
+                <div class="container">
+                    <p class="lead">We're not your ordinary store. We're the ultimate shopping destination for engineers, shippers, and everyone in between! 😎</p>
+                    <p>Why should you shop with us? Simple! Our products are handpicked to make your work life more enjoyable and entertaining. 🚀</p>
+                    <p>So, what are you waiting for? Dive in, explore our selection, and add some excitement to your everyday grind. 🛍️ And remember, we're always here to make you laugh! 😂</p>
+                </div>
+            </div>            
+            <div class="searchBar row">
                 <div class="col-md-12">
                     <input type="text" class="form-control" id="search-input" placeholder="Search for products...">
                 </div>
             </div>
 
-            <h2 class="text-center mb-4">Products</h2>
-            <div class="row">
+            <div class="productList row">
                 {% for product in products %}
                 <div class="product-container col-lg-4 col-md-6 mb-4 fade-in">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">{{ product["name"] }}</h5>
+                            {% if "kit" in product["name"].lower() or "bundle" in product["name"].lower() or "pack" in product["name"].lower() %}
+                                <h5 class="card-title">🎁 {{ product["name"] }}</h5>
+                            {% else %}
+                                <h5 class="card-title">{{ product["name"] }}</h5>
+                            {% endif %}
                             <p class="card-text">{{ product["description"] }}</p>
                             <p class="card-text">SKU: {{ product["sku"] }}</p>
                             <p class="card-text">${{ product["price"] }}</p>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-primary btn-buy" data-toggle="modal" data-target="#buyModal" data-product-id="{{ product["id"] }}">Buy</button>
+                            <button class="btn btn-primary btn-buy" data-toggle="modal" data-target="#buyModal" data-product-id="{{ product["id"] }}">Place Order</button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +110,7 @@
                             <input type="text" class="form-control" id="country" required>
                         </div>
                         <input type="hidden" id="product-id">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="shipping-form-submit btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>

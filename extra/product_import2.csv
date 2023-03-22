@@ -1,0 +1,4 @@
+SKU,Name,WarehouseLocation,WeightOz,Category,Tag1,Tag2,Tag3,Tag4,Tag5,CustomsDescription,CustomsValue,CustomsTariffNo,CustomsCountry,ThumbnailUrl,UPC,FillSKU,Length,Width,Height,UseProductName,Active,ParentSKU,IsReturnable
+ENG-KIT-001,Engineering Survival Kit,A12-Bin 14,48,Kits,Electronics,Tools,Snacks,,,Essential Tools and Gadgets for Engineers,80,,US,,,ENG-KIT-001,12,12,6,,TRUE,,TRUE
+ENG-KIT-002,Coding Marathon Bundle,C25-Bin 10,32,Kits,Snacks,Drinks,Office,,,Coding Snacks and Drinks,55,,US,,,ENG-KIT-002,8,8,8,,TRUE,,TRUE
+ENG-KIT-003,ShipStation Team Party Pack,E42-Bin 5,60,Kits,Party,Games,Decorations,,,Party Supplies for ShipStation Team,90,,US,,,ENG-KIT-003,15,10,10,,TRUE,,TRUE

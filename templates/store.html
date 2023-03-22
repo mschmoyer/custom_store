@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="bg-primary text-white text-center py-3">
+    <h1>GearUp Engineers</h1>
+    <img src="{{ url_for('static', filename='brand_logo.png') }}" alt="Brand Logo" width="100" class="mt-2">
+</header>           
+
+<section class="container my-5">
+    {% if error %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <div class="jumbotron jumbotron-fluid bg-light text-center">
+        <div class="container">
+            <p class="lead">We're not your ordinary store. We're the ultimate shopping destination for engineers, shippers, and everyone in between! 😎</p>
+            <p>Why should you shop with us? Simple! Our products are handpicked to make your work life more enjoyable and entertaining. 🚀</p>
+            <p>So, what are you waiting for? Dive in, explore our selection, and add some excitement to your everyday grind. 🛍️ And remember, we're always here to make you laugh! 😂</p>
+        </div>
+    </div>            
+    <div class="searchBar row">
+        <div class="col-md-12">
+            <input type="text" class="form-control" id="search-input" placeholder="Search for products...">
+        </div>
+    </div>
+
+    <div class="productList row">
+        {% for product in products %}
+        <div class="product-container col-lg-4 col-md-6 mb-4 fade-in">
+            <div class="card h-100">
+                <div class="card-body">
+                    {% if "kit" in product["name"].lower() or "bundle" in product["name"].lower() or "pack" in product["name"].lower() %}
+                        <h5 class="card-title">🎁 {{ product["name"] }}</h5>
+                    {% else %}
+                        <h5 class="card-title">{{ product["name"] }}</h5>
+                    {% endif %}
+                    <p class="card-text">{{ product["description"] }}</p>
+                    <p class="card-text">SKU: {{ product["sku"] }}</p>
+                    <p class="card-text">${{ product["price"] }}</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary btn-add-to-cart" data-product-id="{{ product["id"] }}">Add To Cart</button>
+                </div>                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Add this just before the closing </body> tag -->
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+    <span class="text-muted">Made by ChatGPT and Mike Schmoyer</span><br>
+    <a class="text-muted" href="https://github.com/mschmoyer/custom_store">See source code</a>
+    </div>
+</footer>
+
+<!-- Item Added Modal -->
+<div class="modal" id="itemAddedModal" tabindex="-1" role="dialog" aria-labelledby="itemAddedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="itemAddedModalLabel">Item Added to Cart</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>The item has been added to your cart.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="itemAddedModalOKButton">OK</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Buy Modal
+<div class="modal" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="buyModalLabel">Enter Shipping Address</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="shipping-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="street1">Street Address</label>
+                    <input type="text" class="form-control" id="street1" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" required>
+                </div>
+                <div class="form-group">
+                    <label for="postalCode">Postal Code</label>
+                    <input type="text" class="form-control" id="postalCode" required>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" required>
+                </div>
+                <input type="hidden" id="product-id">
+                <button type="submit" class="shipping-form-submit btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div> -->
+
+<!-- Success Modal
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="successModalLabel">Order Status</h5>
+        </div>
+        <div class="modal-body text-center">
+            <p id="loadingMessage">Purchasing...</p>
+            <p id="successMessage" style="display:none;">Your success message will appear here.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" style="display:none;">OK</button>
+        </div>
+    </div>
+</div>
+</div> -->
+{% endblock %}

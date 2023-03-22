@@ -1,0 +1,11 @@
+SKU,Name,WarehouseLocation,WeightOz,Category,Tag1,Tag2,Tag3,Tag4,Tag5,CustomsDescription,CustomsValue,CustomsTariffNo,CustomsCountry,ThumbnailUrl,UPC,FillSKU,Length,Width,Height,UseProductName,Active,ParentSKU,IsReturnable
+INVIS-BOX,Invisible Box,A22-Bin 15,5,Magic Supplies,Invisible,Prank,,,,Invisible Box for Pranks,25,,US,,,FBA-2,6,6,6,,TRUE,,TRUE
+TRAV-PLANT,Traveling Plant,D15-Bin 9,32,Office Decor,Travel,Plant,Green,,,Travel-inspired Potted Plant,40,,US,,,FBA-3,10,10,14,,TRUE,,TRUE
+ROBO-PEN,Robot Pen,E32-Bin 3,1,Stationery,Gadget,Robot,,,,Robotic Pen for Writing,20,,US,,,FBA-4,0.5,0.5,6,,TRUE,,TRUE
+CAFFEINE-CAPS,Caffeine Capsules,B23-Bin 7,0.5,Supplements,Energy,Work,,,,Energy Boosting Capsules,15,,US,,,FBA-5,1,1,2,,TRUE,,TRUE
+LAUGH-BUBBLES,Laughing Bubbles,C11-Bin 5,8,Toys,Fun,Stress Relief,,,,Bubble Solution with Laughing Sound,12,,US,,,FBA-6,2,2,7,,TRUE,,TRUE
+DESK-QUAKE,Desktop Earthquake,F10-Bin 1,20,Office Decor,Earthquake,Engineering,,,,Mini Earthquake Simulation for Desk,50,,US,,,FBA-7,8,8,3,,TRUE,,TRUE
+SHIP-COOK,Shipping Container Cookie Jar,A01-Bin 18,48,Kitchenware,Shipping,Container,,,,Cookie Jar Shaped like a Shipping Container,30,,US,,,FBA-8,12,4.5,4.5,,TRUE,,TRUE
+FLYING-DRONE,Drone Delivery Miniature,G02-Bin 4,12,Toys,Drone,Delivery,,,,Miniature Drone with Delivery Function,45,,US,,,FBA-9,5,5,2,,TRUE,,TRUE
+ROCKET-LAMP,Rocket Lamp,C25-Bin 12,18,Lighting,Rocket,Space,,,,Rocket-shaped Desk Lamp,60,,US,,,FBA-10,4,4,14,,TRUE,,TRUE
+TINY-FORKLIFT,Tiny Forklift Toy,E19-Bin 6,3,Toys,Forklift,Miniature,,,,Miniature Forklift Toy for Desk,18,,US,,,FBA-11,2.5,1.5,2,,TRUE,,TRUE
