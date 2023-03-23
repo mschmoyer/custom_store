@@ -1,5 +1,6 @@
-Flask==2.1.1
-requests==2.27.1
-stripe==2.63.0
-python-dotenv==0.19.2
-Flask-Caching==1.11.0
+Flask
+requests
+Flask-Caching
+openai
+Flask-SQLAlchemy
+pycountry
