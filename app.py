@@ -17,6 +17,18 @@ app.secret_key = os.urandom(24)
 # Caching
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
+# Environment variables
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+
+SS_API_KEY = os.environ["SHIPSTATION_API_KEY"]
+SS_API_SECRET = os.environ["SHIPSTATION_API_SECRET"]
+
+BASE_URL = "https://ss-devss257.sslocal.com:8060" # Bundles Z-DDE
+#BASE_URL = "https://ssapi.shipstation.com/" # For a non-DDE account
+
+# OpenAI API Key
+openai.api_key = os.environ["OPENAI_API_KEY"]
+
 # Our persistent database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat_messages.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -44,17 +56,8 @@ class Cart(db.Model):
             'quantity': self.quantity
         }
 
-#db.create_all()
-
-# Replace these with your ShipStation API key and secret
-API_KEY = "3b3e873ff35f4841bd098109b4500b2c"
-API_SECRET = "f73caa021efa4435b609d969ad0b5b7f"
-BASE_URL = "https://ss-devss221.sslocal.com:8060"
-
-#BASE_URL = "https://ssapi.shipstation.com/" # For a non-DDE account
-
-# OpenAI API Key
-openai.api_key = "ADD_KEY_HERE"
+# Add this line before the on_message event handler
+message_counter = 0
 
 # Initialize the session with a default value for 'session_id'
 @app.before_request
@@ -123,7 +126,7 @@ def fetch_shipstation_products():
         "Content-Type": "application/json"
     }
 
-    auth_string = f"{API_KEY}:{API_SECRET}"
+    auth_string = f"{SS_API_KEY}:{SS_API_SECRET}"
     auth_string_encoded = base64.b64encode(auth_string.encode("utf-8")).decode("utf-8")
     headers["Authorization"] = f"Basic {auth_string_encoded}"
 

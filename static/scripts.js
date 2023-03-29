@@ -26,7 +26,6 @@ fetchMessages();
 // Initialize the chatbot by hiding the chat container
 toggleChat();
 
-
 async function sendMessage(event) {
     // Prevent default form submission behavior
     if (event) event.preventDefault();

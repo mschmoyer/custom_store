@@ -18,6 +18,22 @@ Custom Store is a simple online store built with Flask, Bootstrap, and Stripe Ch
 - Flask
 - Stripe account with API key
 
+## Setting Up Environment Variables
+
+To run this application, you will need to set up the following environment variables:
+
+1. `OPENAI_API_KEY`: Your OpenAI API key, which can be obtained from the OpenAI platform.
+2. `SHIPSTATION_API_KEY`: Your ShipStation API key, found in your ShipStation account settings.
+3. `SHIPSTATION_API_SECRET`: Your ShipStation API secret, also found in your ShipStation account settings.
+
+You can set these environment variables using a `.env` file or by exporting them directly in your terminal. Here's an example of how to create a `.env` file:
+
+```bash
+OPENAI_API_KEY=your_openai_api_key
+SHIPSTATION_API_KEY=your_shipstation_api_key
+SHIPSTATION_API_SECRET=your_shipstation_api_secret
+```
+
 ### Installation
 
 Create a virtual environment, activate it, install the required packages, and run the Flask app:

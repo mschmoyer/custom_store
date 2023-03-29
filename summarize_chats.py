@@ -3,7 +3,7 @@ from app import app, Message, db
 import textwrap
 
 # Set your OpenAI API key
-openai.api_key = "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"
+openai.api_key = "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"
 
 with app.app_context():
     # Fetch all messages from the database

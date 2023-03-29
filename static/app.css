@@ -11,6 +11,10 @@
     border-color: #7CBB37;
 }
 
+.chat-container {
+    background-color: whitesmoke;
+}
+
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
     background-color: #5a9228;
     border-color: #5a9228;

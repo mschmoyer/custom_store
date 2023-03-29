@@ -1,0 +1,9 @@
+SKU,Name,WarehouseLocation,WeightOz,Category,Tag1,Tag2,Tag3,Tag4,Tag5,CustomsDescription,CustomsValue,CustomsTariffNo,CustomsCountry,ThumbnailUrl,UPC,FillSKU,Length,Width,Height,UseProductName,Active,ParentSKU,IsReturnable
+ENG-001,Code Compiler Cider,A1-Bin 1,16,Alcoholic Beverages,Crafted,Fruity,Crisp,,,Cider,12,,US,,,16,2.5,2.5,7,,TRUE,,TRUE
+ENG-002,Quantum Quencher Lager,A1-Bin 2,16,Alcoholic Beverages,Smooth,Refreshing,Light,,,Lager,10,,US,,,16,2.5,2.5,7,,TRUE,,TRUE
+ENG-003,Boolean Barrel Bourbon,A1-Bin 3,24,Alcoholic Beverages,Strong,Rich,Warming,,,Bourbon,40,,US,,,24,3,3,8,,TRUE,,TRUE
+ENG-004,Algorithm Ale,A1-Bin 4,16,Alcoholic Beverages,Hoppy,Complex,Deep,,,Ale,14,,US,,,16,2.5,2.5,7,,TRUE,,TRUE
+ENG-005,Integrated Circuit IPA,A1-Bin 5,16,Alcoholic Beverages,Bold,Bitter,Intense,,,IPA,15,,US,,,16,2.5,2.5,7,,TRUE,,TRUE
+ENG-006,Data Driven Dry Gin,A1-Bin 6,24,Alcoholic Beverages,Refreshing,Juniper,Herbal,,,Gin,25,,US,,,24,3,3,8,,TRUE,,TRUE
+ENG-007,Overclocked Oatmeal Stout,A1-Bin 7,16,Alcoholic Beverages,Dark,Roasty,Full-bodied,,,Stout,14,,US,,,16,2.5,2.5,7,,TRUE,,TRUE
+ENG-008,Cache Clearing Cocktail,A1-Bin 8,12,Alcoholic Beverages,Mixed,Colorful,Exciting,,,Cocktail,20,,US,,,12,2,2,6,,TRUE,,TRUE
