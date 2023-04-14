@@ -1,6 +1,26 @@
-# Custom Store
+(Start of only human written block)
 
-Custom Store is a simple online store built with Flask, Bootstrap, and Stripe Checkout. It integrates with ShipStation to manage orders and inventory. The web app showcases various products, allows users to search and filter products, and securely processes payments using Stripe.
+  This was a project to see how GPT-4 could build something complex. Humans wrote 0 lines of code. 
+  
+(End of only human written block)
+
+# GearUp Engineers Store
+
+This Flask web application serves as an online store for engineering products. The key features and components of this application include:
+
+1. **Frontend Interface**: Displays a list of available products.
+2. **Search Functionality**: Allows users to search for specific products.
+3. **ShipStation API Integration**: Fetches product information from ShipStation.
+4. **Chatbot Feature**: Utilizes OpenAI's GPT-4 model to assist users with questions about the store and ShipStation app.
+5. **Caching Mechanism**: Implements `flask_caching` to cache the results of API calls for a specified duration.
+6. **SQLite Database**: Stores chat messages.
+7. **Dockerfile**: Containerizes the application.
+8. **Flask Routing and Template Inheritance**: Includes a blog page and store page.
+9. **README.md**: Provides information on the project, setup, and environment variables.
+10. **Unique and Creative Products**: Tailored for engineers, including alcoholic beverages.
+
+The application provides a user-friendly interface for engineers to browse and purchase products while also offering assistance through the integrated chatbot feature.
+
 
 ## Features
 
@@ -16,7 +36,6 @@ Custom Store is a simple online store built with Flask, Bootstrap, and Stripe Ch
 
 - Python 3.7+
 - Flask
-- Stripe account with API key
 
 ## Setting Up Environment Variables
 
@@ -47,11 +66,9 @@ export FLASK_ENV=development
 flask run
 ```
 
-Create a .env file in the root directory and add your Stripe API key and ShipStation API key:
+Create a .env file in the root directory and add your ShipStation API key:
 
 ```makefile
-STRIPE_SECRET_KEY=your_stripe_secret_key
-STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 SHIPSTATION_API_KEY=your_shipstation_api_key
 SHIPSTATION_API_SECRET=your_shipstation_api_secret
 ```
