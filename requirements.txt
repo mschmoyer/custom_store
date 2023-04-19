@@ -4,3 +4,4 @@ Flask-Caching
 openai
 Flask-SQLAlchemy
 pycountry
+dicttoxml

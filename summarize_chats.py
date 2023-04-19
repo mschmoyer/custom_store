@@ -1,4 +1,5 @@
 import openai
+import os
 from app import app, Message, db
 import textwrap
 

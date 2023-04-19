@@ -110,7 +110,7 @@ $(document).ready(function() {
         $('#buyModal').modal('hide');
 
         // Send a POST request to the place_order route with the product_ids array and shippingInfo
-        fetch('/place_order', {
+        fetch('/place_order_db', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -155,12 +155,13 @@ $(document).ready(function() {
     
         // Gather shipping information from the form
         const shippingInfo = {
-            name: document.getElementById('name').value,
-            street1: document.getElementById('street1').value,
-            city: document.getElementById('city').value,
-            state: document.getElementById('state').value,
-            postalCode: document.getElementById('postalCode').value,
-            country: document.getElementById('country').value,
+            Name: document.getElementById('name').value,
+            Address1: document.getElementById('street1').value,
+            City: document.getElementById('city').value,
+            State: document.getElementById('state').value,
+            PostalCode: document.getElementById('postalCode').value,
+            //Country: document.getElementById('country').value,
+            Country: 'US',
         };
     
         // Call the placeOrder function with the shippingInfo

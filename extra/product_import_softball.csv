@@ -1,0 +1,11 @@
+SKU,Name,WarehouseLocation,WeightOz,Category,Tag1,Tag2,Tag3,Tag4,Tag5,CustomsDescription,CustomsValue,CustomsTariffNo,CustomsCountry,ThumbnailUrl,UPC,FillSKU,Length,Width,Height,UseProductName,Active,ParentSKU,IsReturnable
+1001,Softball Bat,1A,30,Bats,Aluminum,,Adult,,,,Sports Equipment,100,US,https://example.com/bat.jpg,123456789101,,34,2,2,1,1,,1
+1002,Softball Glove,2B,20,Gloves,Leather,,Adult,,,,Sports Equipment,50,US,https://example.com/glove.jpg,123456789102,,12,6,4,1,1,,1
+1003,Softball,3C,6,Balls,Yellow,,Adult,,,,Sports Equipment,5,US,https://example.com/softball.jpg,123456789103,,4,4,4,1,1,,1
+1004,Softball Helmet,4D,18,Helmets,Protective,,Adult,,,,Sports Equipment,40,US,https://example.com/helmet.jpg,123456789104,,12,8,10,1,1,,1
+1005,Softball Cleats,5E,32,Shoes,Cleats,,Adult,,,,Sports Equipment,70,US,https://example.com/cleats.jpg,123456789105,,13,8,5,1,1,,1
+1006,Batting Gloves,6F,8,Accessories,Leather,,Adult,,,,Sports Equipment,25,US,https://example.com/batting_gloves.jpg,123456789106,,5,2,1,1,1,,1
+1007,Starter Kit,3A,74,Kits,Bat,Glove,Helmet,Ball,,,Sports Equipment Kit,200,US,https://example.com/starter_kit.jpg,1.23457E+11,,,,,1,1,,1
+1008,Advanced Kit,3B,94,Kits,Bat,Glove,Cleats,Helmet,Ball,,Sports Equipment Kit,250,US,https://example.com/advanced_kit.jpg,1.23457E+11,,,,,1,1,,1
+1009,Pro Kit,3C,110,Kits,Bat,Glove,Cleats,Helmet,Ball,,Sports Equipment Kit,300,US,https://example.com/pro_kit.jpg,123456789109,,,,,1,1,,1
+1010,Softball Bag,7G,20,Bags,Nylon,,Adult,,,,Sports Equipment,40,US,https://example.com/softball_bag.jpg,123456789110,,36,12,12,1,1,,1

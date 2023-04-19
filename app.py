@@ -3,13 +3,15 @@ import os
 import random
 import requests
 import uuid
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, session
+from flask import Response, Flask, render_template, request, jsonify, redirect, url_for, flash, session
 from datetime import datetime
 import base64
 from flask_caching import Cache
 import openai
 from flask_sqlalchemy import SQLAlchemy
 import pycountry
+import dicttoxml
+from xml.etree.ElementTree import Element, SubElement, tostring
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -23,8 +25,8 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 SS_API_KEY = os.environ["SHIPSTATION_API_KEY"]
 SS_API_SECRET = os.environ["SHIPSTATION_API_SECRET"]
 
-BASE_URL = "https://ss-devss257.sslocal.com:8060" # Bundles Z-DDE
-#BASE_URL = "https://ssapi.shipstation.com/" # For a non-DDE account
+#BASE_URL = "https://ss-devss257.sslocal.com:8060" # Bundles Z-DDE
+BASE_URL = "https://ssapi.shipstation.com/" # For a non-DDE account
 
 # OpenAI API Key
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -55,6 +57,18 @@ class Cart(db.Model):
             'product_id': self.product_id,
             'quantity': self.quantity
         }
+
+class Order(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    product_ids = db.Column(db.String)
+    shipping_info = db.Column(db.String)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, id, product_ids, shipping_info):
+        self.id = id
+        self.product_ids = product_ids
+        self.shipping_info = shipping_info
+
 
 # Add this line before the on_message event handler
 message_counter = 0
@@ -89,33 +103,36 @@ def add_to_cart(product_id):
     return cart_item.to_dict(), 201
 
 def create_shipstation_order(order_number, order_items, shipping_info):
-    country = pycountry.countries.get(name=shipping_info["country"])
-    country_code = country.alpha_2 if country else shipping_info["country"]
+    country = pycountry.countries.get(name=shipping_info["Country"])
+    country_code = country.alpha_2 if country else shipping_info["Country"]
+
+    # TODO: HACK!
+    country_code='US'
     order = {
-        "orderNumber": order_number,
-        "orderDate": datetime.now().isoformat(),
-        "orderStatus": "awaiting_shipment",
-        "billTo": {
-            "name": shipping_info["name"],
-            "street1": shipping_info["street1"],
-            "city": shipping_info["city"],
-            "state": shipping_info["state"],
-            "postalCode": shipping_info["postalCode"],
-            "country": country_code,
-            "phone": "555-555-5555",
-            "email": "john.doe@example.com"
+        "OrderNumber": order_number,
+        "OrderDate": datetime.now().isoformat(),
+        "OrderStatus": "awaiting_shipment",
+        "BillTo": {
+            "Name": shipping_info["Name"],
+            "Address1": shipping_info["Address1"],
+            "City": shipping_info["City"],
+            "State": shipping_info["State"],
+            "PostalCode": shipping_info["PostalCode"],
+            "Country": country_code,
+            "Phone": "555-555-5555",
+            "Email": "john.doe@example.com"
         },
-        "shipTo": {
-            "name": shipping_info["name"],
-            "street1": shipping_info["street1"],
-            "city": shipping_info["city"],
-            "state": shipping_info["state"],
-            "postalCode": shipping_info["postalCode"],
-            "country": country_code,
-            "phone": "555-555-5555",
-            "email": "john.doe@example.com"
+        "ShipTo": {
+            "Name": shipping_info["Name"],
+            "Address1": shipping_info["Address1"],
+            "City": shipping_info["City"],
+            "State": shipping_info["State"],
+            "PostalCode": shipping_info["PostalCode"],
+            "Country": country_code,
+            "Phone": "555-555-5555",
+            "Email": "john.doe@example.com"
         },
-        "items": order_items
+        "Items": order_items
     }
 
     return order
@@ -156,7 +173,7 @@ def send_order_to_shipstation(order):
     }
 
     # Encode the API key and API secret using Base64
-    auth_string = f"{API_KEY}:{API_SECRET}"
+    auth_string = f"{SS_API_KEY}:{SS_API_SECRET}"
     auth_string_encoded = base64.b64encode(auth_string.encode("utf-8")).decode("utf-8")
 
     # Set the Authorization header with the encoded credentials
@@ -169,6 +186,59 @@ def send_order_to_shipstation(order):
     print(f"Response body: {response.text}")
 
     return response
+
+def orders_to_shipstation_xml(orders):
+    orders_list = []
+
+    for order in orders:
+        product_ids = order.product_ids.split(',')
+        items = []
+
+        for product_id in product_ids:
+            product = next((p for p in fetch_shipstation_products() if str(p["id"]) == product_id), None)
+            if product:
+                item_data = {
+                    "SKU": product["sku"],
+                    "Name": product["name"],
+                    "Quantity": 1,
+                    "UnitPrice": product["price"]
+                }
+                item = {'Item': item_data}
+                items.append(item)
+
+        order_data = {
+            "OrderID": order.id,
+            "OrderNumber": order.id,
+            "OrderDate": order.created_at.strftime("%m/%d/%Y %H:%M %p"),
+            "OrderStatus": "paid",
+            "LastModified": order.created_at.strftime("%m/%d/%Y %H:%M %p"),
+            "CurrencyCode": "USD",
+            "TaxAmount": "0.00",
+            "ShippingAmount": "100.00",
+            "OrderTotal": "100.00",
+            "Gift": "false",
+            "GiftMessage": "false",
+            "CustomField1": "",
+            "CustomField2": "",
+            "CustomField3": "",
+            "Customer": {
+                "CustomerCode": "mike.schmoyer@auctane.com",
+                "BillTo": json.loads(order.shipping_info),
+                "ShipTo": json.loads(order.shipping_info),
+            },
+            "Items": items
+        }
+        order = {'Order': order_data}
+
+        orders_list.append(order)
+
+    xml_data = dicttoxml.dicttoxml(orders_list, custom_root='Orders', attr_type=False)
+    xml_data = xml_data.decode().replace('<item>', '').replace('</item>', '')
+    return xml_data.encode()
+
+
+
+
 
 # ROUTES
 @app.route("/")
@@ -195,15 +265,29 @@ def view_cart():
         item.name = products_dict.get(item.product_id)
     return render_template('cart.html', cart_items=cart_items)
 
-
-
 @app.route('/add_item_to_cart', methods=['POST'])
 def add_item_to_cart_route():
     product_id = request.form.get('product_id')
     result, status_code = add_to_cart(product_id)
     return jsonify(result), status_code
 
+@app.route('/place_order_db', methods=['POST'])
+def place_order_db():
+    data = request.get_json()
+    product_ids = data.get('product_ids')
+    shipping_info = data.get('shipping_info')
+    order_id = str(uuid.uuid4())
 
+    order = Order(id=order_id, product_ids=','.join(product_ids), shipping_info=json.dumps(shipping_info))
+    db.session.add(order)
+    db.session.commit()
+
+    response = {
+        "status": "success",
+        "order_id": order_id
+    }
+
+    return jsonify(response)
 
 @app.route('/place_order', methods=['POST'])
 def place_order():
@@ -221,11 +305,11 @@ def place_order():
 
         order_item = {
             "lineItemKey": str(uuid.uuid4()),
-            "name": product["name"],
-            "sku": product["sku"],
-            "quantity": 1,
-            "unitPrice": product["price"],
-            "warehouseLocation": "Shelf A1"
+            "Name": product["name"],
+            "SKU": product["sku"],
+            "Quantity": 1,
+            "UnitPrice": product["price"],
+            "WarehouseLocation": "Shelf A1"
         }
         order_items.append(order_item)
 
@@ -254,11 +338,11 @@ def buy(product_id):
 
     order_items = [{
         "lineItemKey": str(uuid.uuid4()),
-        "name": product["name"],
-        "sku": product["sku"],
-        "quantity": 1,
-        "unitPrice": product["price"],
-        "warehouseLocation": "Shelf A1"
+        "Name": product["name"],
+        "SKU": product["sku"],
+        "Quantity": 1,
+        "UnitPrice": product["price"],
+        "WarehouseLocation": "Shelf A1"
     }]
     
     order = create_shipstation_order(order_id, order_items, shipping_info)
@@ -302,6 +386,7 @@ def chat():
 
     return jsonify({"response": response_text})
 
+
 @app.route("/messages", methods=["GET"])
 def get_messages():
     messages = Message.query.all()
@@ -309,6 +394,39 @@ def get_messages():
         {"sender": message.sender, "content": message.content} for message in messages
     ]
     return jsonify(messages_data)
+
+
+@app.route('/shipstation_orders', methods=['GET'])
+def shipstation_orders():
+    action = request.args.get('action')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    page = int(request.args.get('page', 1))
+
+    if action == 'export':
+        start_date = datetime.strptime(start_date, "%m/%d/%Y %H:%M") if start_date else None
+        end_date = datetime.strptime(end_date, "%m/%d/%Y %H:%M") if end_date else None
+
+        # Filter orders based on start_date and end_date
+        orders_query = Order.query
+        if start_date:
+            orders_query = orders_query.filter(Order.created_at >= start_date)
+        if end_date:
+            orders_query = orders_query.filter(Order.created_at <= end_date)
+
+        orders = orders_query.all()
+
+        # Add pagination
+        per_page = 50  # Adjust this value to set the number of orders per page
+        orders_paginated = orders[(page - 1) * per_page: page * per_page]
+
+        xml_data = orders_to_shipstation_xml(orders_paginated)
+
+        return Response(xml_data, content_type='application/xml')
+    else:
+        return jsonify({"error": "Invalid action."}), 400
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
