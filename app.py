@@ -318,6 +318,17 @@ def addresses():
 @app.route('/submit_chaotic_order', methods=['POST'])
 def submit_chaotic_order():
 
+    # Check if the function was called recently
+    last_run_time = session.get('last_run_time')
+    current_time = time.time()
+
+    if last_run_time and current_time - last_run_time < 5:
+        print("Function called recently. Bailing out...")
+        return jsonify({"message": "Rate limiting # of orders that can be generated. Is someone else also running this?"}), 429
+
+    # Update the last run time in the session
+    session['last_run_time'] = current_time
+
     # pick a random persona from the file
     addresses = ingest_yaml_address_file("static/addresses.yml")
 
@@ -333,7 +344,7 @@ def submit_chaotic_order():
         #choose 1-5 random products from the products array and return the product_ids
 
         # Randomly determine the number of products to choose
-        num_products_to_choose = random.randint(1, min(5, len(products)))
+        num_products_to_choose = random.randint(1, min(25, len(products)))
 
         # Randomly select unique products
         selected_products = random.sample(products, num_products_to_choose)

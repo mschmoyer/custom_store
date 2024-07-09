@@ -7,3 +7,5 @@ __pycache__/app.cpython-310.pyc
 .DS_Store
 flask_session/*
 yarn.lock
+/.vscode
+.DS_Store

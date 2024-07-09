@@ -36,6 +36,25 @@ function getRandomThankYouMessage() {
 let simulationActive = false;
 let simulationTimeout;
 
+function showOrderNotification() {
+    const notification = document.getElementById('order-notification');
+    const button = document.getElementById('chaotic-order-button');
+
+    const buttonRect = button.getBoundingClientRect();
+    const offsetX = 100;
+    const offsetY = -50;
+
+    notification.style.left = `${buttonRect.left + offsetX}px`;
+    notification.style.top = `${buttonRect.top + offsetY}px`;
+
+    notification.classList.remove('d-none');
+    notification.style.animation = 'floatUp 3s ease-out';
+
+    setTimeout(() => {
+        notification.classList.add('d-none');
+    }, 3000);
+}
+
 function simulate_store() {
     if (!simulationActive) {
         return;
@@ -46,13 +65,16 @@ function simulate_store() {
     fetch('/submit_chaotic_order', { method: 'POST' })
         .then(response => {
             // Handle the response if necessary
+            if (response.ok) {
+                showOrderNotification();
+            }
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
     // Call simulate_store again after a random delay
-    const randomDelay = Math.random() * 50000; // Random delay up to 5000 milliseconds (5 seconds)
+    const randomDelay = Math.random() * 5000; // Random delay up to 5000 milliseconds (5 seconds)
     simulationTimeout = setTimeout(simulate_store, randomDelay);
 }
 
