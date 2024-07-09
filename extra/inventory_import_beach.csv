@@ -1,0 +1,4 @@
+SKU,ProductName,Loc1,Loc2,Loc3,Loc4,Stock,ReorderThreshold,Cost
+beach-towel,Beach Towel,A,Aisle 5,Row 3,Bin 2,50,20,14.99
+beach-see-shells,Sea Shell Set,B,Aisle 4,Row 1,Bin 6,30,15,7.99
+beach-picture,Beach Picture,B,Aisle 6,Row 4,Bin 3,40,10,12.50

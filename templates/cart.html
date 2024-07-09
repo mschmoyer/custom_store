@@ -23,7 +23,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <button id="place-order-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyModal">Place Order</button>
+    <button id="place-order-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyModal">Checkout</button>
 
     <div id="loading-indicator" class="spinner-border text-primary d-none" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -34,46 +34,46 @@
 
     <!-- Buy Modal -->
     <div class="modal" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="buyModalLabel">Enter Shipping Address</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="shipping-form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="street1">Street Address</label>
-                        <input type="text" class="form-control" id="street1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="city">City</label>
-                        <input type="text" class="form-control" id="city" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="state">State</label>
-                        <input type="text" class="form-control" id="state" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="postalCode">Postal Code</label>
-                        <input type="text" class="form-control" id="postalCode" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Country</label>
-                        <input type="text" class="form-control" id="country" required>
-                    </div>
-                    <input type="hidden" id="product-id">
-                    <button type="submit" class="shipping-form-submit btn btn-primary">Submit</button>
-                </form>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyModalLabel">Enter Shipping Address</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="shipping-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="street1">Street Address</label>
+                            <input type="text" class="form-control" id="street1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" id="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text" class="form-control" id="postalCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" class="form-control" id="country" required>
+                        </div>                      
+                        <input type="hidden" id="product-id">
+                        <button type="submit" class="shipping-form-submit btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 {% endblock %}

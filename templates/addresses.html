@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<head>
+    <title>Addresses</title>
+    <script>
+        function saveToLocalStorage(button, address) {
+            // Convert the address data to a JSON string
+            const addressData = JSON.stringify(address);
+    
+            // Save the address data to local storage
+            localStorage.setItem('address', addressData);
+    
+            // Disable the button and change its text
+            button.disabled = true;
+            button.innerText = 'Done!';
+        }
+    </script>    
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            {% for address_key, address in addresses.items() %}
+                <div class="container mt-4">
+                    <h1 class="mb-4">Addresses</h1>
+                    <div class="row">
+                        {% for category, addresses in addresses.items() %}
+                            {% for id, address in addresses.items() %}
+                                <div class="col-sm-6">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ category }} {{ id }}</h5>
+                                            <p class="card-text">
+                                                Type: {{ address.type }}<br>
+                                                Full Name: {{ address.full_name }}<br>
+                                                First Name: {{ address.first_name }}<br>
+                                                Last Name: {{ address.last_name }}<br>
+                                                Email: {{ address.email }}<br>
+                                                Phone: {{ address.phone }}<br>
+                                                Company: {{ address.company }}<br>
+                                                Address: {{ address.ln1 }}, {{ address.ln2 }}, {{ address.city }}, {{ address.state }}, {{ address.zip }}, {{ address.country }}
+                                            </p>
+                                        </div>
+                                        <button class="btn btn-primary" onclick="saveToLocalStorage(this, {{ address }})">Become This Person</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+{% endblock %}

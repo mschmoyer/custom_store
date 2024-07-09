@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<header class="bg-primary text-white text-center py-3">
-    <h1>GearUp Engineers</h1>
-    <img src="{{ url_for('static', filename='brand_logo.png') }}" alt="Brand Logo" width="100" class="mt-2">
-</header>           
+<header class="bg-primary text-white text-center py-3 d-flex justify-content-center align-items-center">
+    <img src="{{ url_for('static', filename='brand_logo.png') }}" alt="Brand Logo" width="50" class="mr-3">
+    <h1 class="mb-0">GearUp Engineers</h1>
+</header>
 
 <section class="container my-5">
     {% if error %}
@@ -13,13 +13,21 @@
         </div>
     {% endif %}
 
-    <div class="jumbotron jumbotron-fluid bg-light text-center">
+    <!-- <div class="jumbotron jumbotron-fluid bg-light text-center">
         <div class="container">
             <p class="lead">We're not your ordinary store. We're the ultimate shopping destination for engineers, shippers, and everyone in between! 😎</p>
             <p>Why should you shop with us? Simple! Our products are handpicked to make your work life more enjoyable and entertaining. 🚀</p>
             <p>So, what are you waiting for? Dive in, explore our selection, and add some excitement to your everyday grind. 🛍️ And remember, we're always here to make you laugh! 😂</p>
         </div>
-    </div>            
+    </div>             -->
+
+    <!--A button that submits a chaotic order-->
+    <div class="row">
+        <div class="col-md-12">
+            <button id="chaotic-order-button" class="btn btn-primary btn-chaotic-order">Simulate Business</button>
+        </div>
+    </div>
+
     <div class="searchBar row">
         <div class="col-md-12">
             <input type="text" class="form-control" id="search-input" placeholder="Search for products...">
@@ -36,12 +44,18 @@
                     {% else %}
                         <h5 class="card-title">{{ product["name"] }}</h5>
                     {% endif %}
-                    <p class="card-text">{{ product["description"] }}</p>
-                    <p class="card-text">SKU: {{ product["sku"] }}</p>
+                    {% if "description" in product %}
+                        <p class="card-text">{{ product["description"] }}</p>
+                    {% endif %} 
+
+                    <!--check if thumbnailURL is not none and has a length > 0-->
+                    <img class="thumbnailImage" src="{{ product["thumbnailURL"] }}" class="card-img-top" alt="...">
+
                     <p class="card-text">${{ product["price"] }}</p>
+                    <p class="card-text">SKU: {{ product["sku"] }}</p>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary btn-add-to-cart" data-product-id="{{ product["id"] }}">Add To Cart</button>
+                    <button class="btn btn-primary btn-add-to-cart" data-product-id="{{ product["id"] }}">Add to Cart</button>
                 </div>                
             </div>
         </div>
@@ -79,7 +93,6 @@
     </div>
 </div>
 
-<!-- Buy Modal
 <div class="modal" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -121,9 +134,8 @@
         </div>
     </div>
 </div>
-</div> -->
+</div>
 
-<!-- Success Modal
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -139,5 +151,5 @@
         </div>
     </div>
 </div>
-</div> -->
+</div>
 {% endblock %}

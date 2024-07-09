@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GearUp Store - Startup Config</title>
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script language="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the values exist in localStorage
+            if (localStorage.getItem("ss_api_key")) {
+                document.getElementById("ss_api_key").value = localStorage.getItem("ss_api_key");
+            }
+
+            if (localStorage.getItem("ss_api_secret")) {
+                document.getElementById("ss_api_secret").value = localStorage.getItem("ss_api_secret");
+            }
+
+            if (localStorage.getItem("base_url")) {
+                document.getElementById("base_url").value = localStorage.getItem("base_url");
+            }
+
+            // On Submit Event
+            document.getElementById("configForm").addEventListener("submit", function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Save data to localStorage
+                localStorage.setItem("ss_api_key", document.getElementById("ss_api_key").value);
+                localStorage.setItem("ss_api_secret", document.getElementById("ss_api_secret").value);
+                localStorage.setItem("base_url", document.getElementById("base_url").value);
+
+                // Continue with form submission
+                this.submit();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <h2 class="text-center my-4">GearUp Store - Startup Config</h2>
+                <form action="/config_save" method="POST" id="configForm">
+                    <div class="form-group">
+                        <label for="ss_api_key">ShipStation API Key</label>
+                        <input type="text" class="form-control" id="ss_api_key" name="ss_api_key">
+                    </div>
+                    <div class="form-group">
+                        <label for="ss_api_secret">ShipStation API Secret</label>
+                        <input type="text" class="form-control" id="ss_api_secret" name="ss_api_secret">
+                    </div>
+                    <div class="form-group">
+                        <label for="base_url">Base URL</label>
+                        <input type="text" class="form-control" id="base_url" name="base_url" value="https://ssapi.shipstation.com/">
+                        <small class="form-text text-muted">
+                        Please make sure to include the port at the end if necessary. For example, if you are using DDE, your URL might look like this: "https://ss-devss257.sslocal.com:8060".
+                        </small>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

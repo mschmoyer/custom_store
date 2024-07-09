@@ -41,36 +41,18 @@ The application provides a user-friendly interface for engineers to browse and p
 
 To run this application, you will need to set up the following environment variables:
 
-1. `OPENAI_API_KEY`: Your OpenAI API key, which can be obtained from the OpenAI platform.
-2. `SHIPSTATION_API_KEY`: Your ShipStation API key, found in your ShipStation account settings.
-3. `SHIPSTATION_API_SECRET`: Your ShipStation API secret, also found in your ShipStation account settings.
-
-You can set these environment variables using a `.env` file or by exporting them directly in your terminal. Here's an example of how to create a `.env` file:
-
-```bash
-OPENAI_API_KEY=your_openai_api_key
-SHIPSTATION_API_KEY=your_shipstation_api_key
-SHIPSTATION_API_SECRET=your_shipstation_api_secret
-```
-
-### Installation
-
-Create a virtual environment, activate it, install the required packages, and run the Flask app:
-
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-export FLASK_APP=app.py
-export FLASK_ENV=development
-flask run
-```
-
-Create a .env file in the root directory and add your ShipStation API key:
-
 ```makefile
-SHIPSTATION_API_KEY=your_shipstation_api_key
-SHIPSTATION_API_SECRET=your_shipstation_api_secret
+export SHIPSTATION_API_KEY=your_shipstation_api_key
+export SHIPSTATION_API_SECRET=your_shipstation_api_secret
+export OPENAI_API_KEY=your_openai_key
+```
+
+## Running the Server
+
+```bash
+pip3 install -r requirements.txt
+python3 setup_db.py #one time.
+python3 app.py
 ```
 
 The application should now be running on http://localhost:5000.

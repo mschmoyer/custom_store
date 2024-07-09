@@ -33,29 +33,45 @@ function getRandomThankYouMessage() {
     return messages[randomIndex];
 }
 
+let simulationActive = false;
+let simulationTimeout;
+
+function simulate_store() {
+    if (!simulationActive) {
+        return;
+    }
+
+    // Perform the POST request to the /submit_chaotic_order endpoint
+    console.log('Simulating a customer order...');
+    fetch('/submit_chaotic_order', { method: 'POST' })
+        .then(response => {
+            // Handle the response if necessary
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    // Call simulate_store again after a random delay
+    const randomDelay = Math.random() * 50000; // Random delay up to 5000 milliseconds (5 seconds)
+    simulationTimeout = setTimeout(simulate_store, randomDelay);
+}
+
+function start_simulation() {
+    simulationActive = true;
+    simulate_store();
+}
+
+function stop_simulation() {
+    simulationActive = false;
+    clearTimeout(simulationTimeout);
+}
+
+
 $(document).ready(function() {
 
     $("#search-input").on("keyup", function () {
         filterProducts();
     });
-
-    // $('#successModal .modal-footer button').on('click', function() {
-    //     $('#successModal').modal('hide');
-    // });    
-
-    // document.querySelectorAll('.btn-buy').forEach(btn => {
-    //     btn.addEventListener('click', function(event) {
-    //         event.preventDefault();
-    //         //this.classList.add('clicked');
-    //         $('#buyModal').modal('show');
-    //     });
-    // });
-
-    // $('#buyModal').on('show.bs.modal', function (event) {
-    //     var button = $(event.relatedTarget); // Button that triggered the modal
-    //     var productId = button.data('product-id'); // Extract the product ID from data-* attributes
-    //     $('#product-id').val(productId); // Update the hidden input field with the product ID
-    // });
 
     function addToCart(productId) {
         // Send a POST request to the add_item_to_cart route with the product_id
@@ -77,6 +93,9 @@ $(document).ready(function() {
                 itemAddedModalOKButton.addEventListener('click', () => {
                     $('#itemAddedModal').hide();
                 });
+                setTimeout(() => {
+                    $('#itemAddedModal').hide();
+                },1500);
             } else {
                 // Handle errors (you can display a specific error message if needed)
                 console.error('Error:', data.error);
@@ -87,16 +106,40 @@ $(document).ready(function() {
         });
     }
     
+    let isSimulationRunning = false;
 
+    document.getElementById('chaotic-order-button').addEventListener('click', function() {
+        if (isSimulationRunning) {
+            stop_simulation();
+            this.textContent = 'Simulate Business';
+        } else {
+            start_simulation();
+            this.textContent = 'Stop Simulating';
+        }
+
+        isSimulationRunning = !isSimulationRunning;
+    });
+
+    
     document.querySelectorAll('.btn-add-to-cart').forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');
             addToCart(productId);
         });
     });
-    
 
-    //document.getElementById('place-order-button').addEventListener('click', placeOrder);
+    document.querySelectorAll('.btn-buy-now').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            addToCart(productId);
+            placeOrder()
+        });
+    });
+    
+    document.getElementById('place-order-button').addEventListener('click', function() {
+        placeOrder();
+    });
+
     function placeOrder(shippingInfo) {
         // Show the loading indicator
         document.getElementById('loading-indicator').classList.remove('d-none');
@@ -146,72 +189,48 @@ $(document).ready(function() {
             document.getElementById('loading-indicator').classList.add('d-none');
             console.error('Error:', error);
         });
+    }  
+    
+    if (document.getElementById('shipping-form')) {
+        document.getElementById('shipping-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            // Gather shipping information from the form
+            const shippingInfo = {
+                Name: document.getElementById('name').value,
+                Address1: document.getElementById('street1').value,
+                City: document.getElementById('city').value,
+                State: document.getElementById('state').value,
+                PostalCode: document.getElementById('postalCode').value,
+                //Country: document.getElementById('country').value,
+                Country: 'US',
+            };
+        
+            // Call the placeOrder function with the shippingInfo
+            placeOrder(shippingInfo);
+        });   
     }
-    
-    
-    
-    document.getElementById('shipping-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-    
-        // Gather shipping information from the form
-        const shippingInfo = {
-            Name: document.getElementById('name').value,
-            Address1: document.getElementById('street1').value,
-            City: document.getElementById('city').value,
-            State: document.getElementById('state').value,
-            PostalCode: document.getElementById('postalCode').value,
-            //Country: document.getElementById('country').value,
-            Country: 'US',
-        };
-    
-        // Call the placeOrder function with the shippingInfo
-        placeOrder(shippingInfo);
-    });
-    
-
-    // $('#shipping-form').on('submit', function(event) {
-    //     event.preventDefault();
-    //     var productId = $('#product-id').val();
-    //     var shippingInfo = {
-    //         name: $('#name').val(),
-    //         street1: $('#street1').val(),
-    //         city: $('#city').val(),
-    //         state: $('#state').val(),
-    //         postalCode: $('#postalCode').val(),
-    //         country: $('#country').val()
-    //     };
-    //     // Show the successModal in the loading state
-    //     $('#buyModal').modal('hide');
-    //     $('#loadingMessage').show();
-    //     $('#successMessage').hide();
-    //     $('#successModal .modal-footer button').hide();
-    //     $('#successModal').modal('show');
-
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/buy/" + productId,
-    //         data: JSON.stringify(shippingInfo),
-    //         contentType: "application/json; charset=utf-8",
-    //         dataType: "json",
-    //         success: function (response) {
-    //             // Update the successModal to show the success message
-    //             $('#loadingMessage').hide();
-    //             $('#successMessage').text(getRandomThankYouMessage()).show();
-    //             $('#successModal .modal-footer button').show();
-    //             document.querySelectorAll('.btn-buy').classList.remove('clicked');
-    //         },
-    //         error: function (error) {
-    //             // Hide the successModal after an unsuccessful AJAX request
-    //             $('#successModal').modal('hide');
-    //             document.querySelectorAll('.btn-buy').classList.remove('clicked');
-    //         },
-    //     });
-    // });
-    
-    
 
     $('#buyModal').on('hidden.bs.modal', function() {
         // Remove the modal backdrop after the modal is hidden
         $('.modal-backdrop').remove();
     });
+
+    $('#buyModal').on('shown.bs.modal', function() {
+        // Load the address data from local storage
+        var address = JSON.parse(localStorage.getItem('address'));
+
+        // If there's address data in local storage...
+        if (address) {
+            // Set the values of the form fields
+            $('#name').val(address.full_name || '');
+            $('#street1').val(address.ln1 || '');
+            $('#city').val(address.city || '');
+            $('#state').val(address.state || '');
+            $('#postalCode').val(address.zip || '');
+            $('#country').val(address.country || '');
+        }
+    });
+
+
 });

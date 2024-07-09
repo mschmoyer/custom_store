@@ -54,3 +54,24 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.modal-wide {
+    max-width: 1024px;
+    width: 90%; /* or any custom width */
+}
+
+.product-grid-container {
+    /* Adjust width */
+    max-width: 1200px;
+    
+    /* Add margin */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.thumbnailImage {
+    max-height: 150px;
+    max-width: 150px;
+    width: auto;
+    height: auto;
+}

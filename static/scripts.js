@@ -21,10 +21,11 @@ async function fetchMessages() {
 }
 
 // Fetch and display stored messages on page load
-fetchMessages();
+//fetchMessages();
 
 // Initialize the chatbot by hiding the chat container
-toggleChat();
+//toggleChat();
+//toggleChat();
 
 async function sendMessage(event) {
     // Prevent default form submission behavior
